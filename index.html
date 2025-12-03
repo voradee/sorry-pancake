@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sorry Pancake ❤️</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    background: radial-gradient(circle at top left,#ffe6f6 0%,#ffd7ea 30%,#fff6fb 100%);
+    color:#332233; overflow:hidden;
+  }
+
+  /* background hearts */
+  .floating-hearts{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .floating-hearts span{position:absolute;bottom:-80px;font-size:20px;opacity:0.85;animation:floatUp linear infinite}
+  .floating-hearts span:nth-child(1){left:8%;animation-duration:11s;font-size:22px}
+  .floating-hearts span:nth-child(2){left:22%;animation-duration:12s;font-size:18px}
+  .floating-hearts span:nth-child(3){left:36%;animation-duration:10s;font-size:24px}
+  .floating-hearts span:nth-child(4){left:52%;animation-duration:13s;font-size:20px}
+  .floating-hearts span:nth-child(5){left:68%;animation-duration:14s;font-size:26px}
+  .floating-hearts span:nth-child(6){left:84%;animation-duration:12s;font-size:20px}
+  @keyframes floatUp{
+    0%{transform:translateY(0) scale(1);opacity:0}
+    10%{opacity:0.95}
+    60%{transform:translateY(-60vh) scale(1.15) rotate(8deg)}
+    100%{transform:translateY(-120vh) scale(0.9);opacity:0}
+  }
+
+  .card{
+    position:relative; z-index:2;
+    width:100%; max-width:760px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,245,250,0.98));
+    border-radius:22px; padding:26px; text-align:center;
+    box-shadow:0 26px 60px rgba(187,73,125,0.18);
+    border:1px solid rgba(255,200,230,0.65);
+    overflow:hidden;
+  }
+
+  .glow{position:absolute;width:380px;height:380px;border-radius:50%;filter:blur(28px);opacity:0.5;z-index:0}
+  .glow.left{left:-120px;top:-120px;background:radial-gradient(circle,#ffd1ea 0%,transparent 60%)}
+  .glow.right{right:-140px;bottom:-100px;background:radial-gradient(circle,#ffd9f0 0%,transparent 60%)}
+
+  .ribbon{position:absolute;right:-76px;top:18px;transform:rotate(25deg);
+    background:linear-gradient(120deg,#ff9ccf,#ff6b9d);padding:8px 86px;font-weight:600;color:#fff;font-size:12px;letter-spacing:1.2px}
+
+  .title{font-family:"Pacifico",cursive;font-size:32px;color:#c6327c;margin-bottom:6px;z-index:1}
+  .subtitle{font-size:14px;color:#7a4a63;margin-bottom:12px}
+
+  h1{font-size:20px;color:#4a154b;margin-bottom:6px}
+  .lead{font-size:15px;color:#5d384d;margin-bottom:14px}
+
+  .smile{
+    display:inline-block;font-size:56px;line-height:1;transform-origin:center;
+    animation:floatSmile 3.5s ease-in-out infinite;
+    filter:drop-shadow(0 6px 12px rgba(255,110,160,0.18));
+  }
+  @keyframes floatSmile{
+    0%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-8px) rotate(-3deg)}
+    100%{transform:translateY(0) rotate(0deg)}
+  }
+
+  .cta{
+    margin-top:8px;
+    display:flex;gap:10px;align-items:center;justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  .btn{
+    background:linear-gradient(135deg,#ff7aa5,#ff4f8b);
+    color:#fff;border:none;padding:10px 18px;border-radius:999px;font-weight:600;cursor:pointer;
+    box-shadow:0 12px 28px rgba(255,100,150,0.32);transition:transform .15s;
+  }
+  .btn.alt{background:linear-gradient(135deg,#ffd1ec,#ffb0d9);color:#6e1440}
+  .btn:active{transform:translateY(1px)}
+
+  .private-letter{
+    margin:18px auto 6px;max-width:680px;padding:14px 16px;border-radius:14px;
+    background:rgba(255,240,249,0.96);color:#3d2436;line-height:1.5;font-size:15px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+    border:1px dashed rgba(255,150,190,0.6);
+    display:none;text-align:left;
+  }
+
+  .promise{display:block;margin-top:12px;font-weight:600;color:#c92d76;font-size:15px;min-height:22px}
+  .sparkles{position:relative;display:inline-block}
+  .sparkles::after{content:"✨";position:absolute;right:-18px;top:-10px;opacity:0;transform:scale(0.6);animation:popSparkle .9s ease-in-out 0.2s forwards}
+  @keyframes popSparkle{0%{opacity:0;transform:scale(.6)}100%{opacity:1;transform:scale(1)}}
+
+  #confetti{position:fixed;left:0;top:0;pointer-events:none;z-index:999}
+
+  .note{margin-top:10px;font-size:12px;color:#8a6079}
+  footer{margin-top:14px;color:#9b6a86;font-size:12px}
+
+  /* popup */
+  .popup-overlay{position:fixed;inset:0;background:rgba(10,8,12,0.45);display:none;align-items:center;justify-content:center;z-index:1200;padding:18px}
+  .popup{width:100%;max-width:460px;background:linear-gradient(180deg,#fff,#fff7fb);border-radius:16px;padding:18px;box-shadow:0 22px 60px rgba(160,60,120,0.25);text-align:center;position:relative}
+  .popup .big-heart{font-size:56px;display:block;margin:6px auto 12px;animation:burst 0.9s ease-out}
+  @keyframes burst{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+  .compliment{font-size:16px;color:#5b2e4a;margin:8px 0;min-height:46px}
+  .small-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .action-btn{padding:10px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+  .action-btn.wa{background:#25d366;color:#fff}
+  .action-btn.sms{background:#ffdeeb;color:#6e1036}
+  .action-btn.mail{background:#ffd1ec;color:#6e1036}
+  .action-btn.copy{background:#fff;color:#c62b7d;border:1px solid rgba(198,43,125,0.12)}
+  .close-x{position:absolute;right:10px;top:8px;border-radius:8px;border:none;background:transparent;font-weight:700;color:#7a3b5b;cursor:pointer}
+
+  /* reply box */
+  .reply-box{margin-top:12px;text-align:left}
+  .reply-box textarea{width:100%;height:78px;border-radius:10px;padding:10px;border:1px solid rgba(200,160,190,0.3);font-size:14px;resize:vertical}
+  .emoji-row{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+  .emoji-btn{font-size:20px;padding:6px;border-radius:8px;border:none;background:rgba(255,240,248,0.9);cursor:pointer}
+  .send-row{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+  .send-btn{background:#c6327c;color:#fff;border:none;padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+
+  /* big decision buttons */
+  .decision{display:flex;gap:10px;margin-top:12px;justify-content:center;flex-wrap:wrap}
+  .forgive-btn{background:linear-gradient(135deg,#70d197,#2fb86f);color:#fff;border:none;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(46,160,100,0.18)}
+  .no-btn{background:linear-gradient(135deg,#ffb3c7,#ff7aa5);color:#6e1036;border:none;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(255,110,150,0.12)}
+
+  /* celebration full-screen */
+  .celebrate{
+    position:fixed;inset:0;background:linear-gradient(180deg,#fff7fb,#ffe6f6);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:2000;padding:20px;
+  }
+  .celebrate h2{font-family:"Pacifico",cursive;font-size:46px;color:#c6327c;margin-bottom:8px}
+  .celebrate p{color:#5a2b45;margin-bottom:14px;font-size:18px}
+  .back-btn{background:#ff6b9d;color:#fff;padding:10px 14px;border-radius:12px;border:none;font-weight:700;cursor:pointer}
+
+  /* emoji rain area */
+  .emoji-fall{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1500}
+
+  @media (max-width:480px){
+    .title{font-size:26px}
+    .smile{font-size:48px}
+    .private-letter{font-size:14px}
+    .popup{padding:14px}
+    .big-heart{font-size:44px}
+    .forgive-btn,.no-btn{padding:10px 12px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="floating-hearts" aria-hidden="true">
+    <span>💗</span><span>💕</span><span>💞</span><span>💘</span><span>💖</span><span>💝</span>
+  </div>
+
+  <div class="card" id="card" role="main" aria-live="polite">
+    <div class="glow left" aria-hidden="true"></div>
+    <div class="glow right" aria-hidden="true"></div>
+    <div class="ribbon">SORRY PANCAKE 💕</div>
+
+    <div style="z-index:1;position:relative">
+      <div class="title">Sorry, Bansi 🥞</div>
+      <p class="subtitle">A tiny note to make you smile.</p>
+
+      <div style="margin:8px 0">
+        <span class="smile" id="smiley">😊</span>
+      </div>
+
+      <h1>Heyyy <span id="her"> Bansiii </span> — I'm really sorryy</h1>
+      <p class="lead">I made a mistake and I feel bad about it. I don't want this to hurt us.</p>
+
+      <div class="cta">
+        <!-- updated button name -->
+        <button class="btn" id="revealBtn">Open my short note 💌</button>
+        <button class="btn alt" id="cheerBtn">Brighten my day ✨</button>
+      </div>
+
+      <div class="private-letter" id="letter" aria-hidden="true">
+        <!-- Short, sweet note -->
+        <p><strong>Bansi (Pancake🥞),</strong></p>
+        <p>I'm truly sorry. I never wanted to hurt you. You mean the world to me — your smile, your laugh, your little Pancake moments.</p>
+
+        <!-- Promise / highlight -->
+        <div class="promise"><span class="sparkles" id="promiseText"></span></div>
+
+        <p style="margin-top:10px">I know I messed up… but I truly want to fix thingohks and be better for you.</p>
+
+        <p style="margin-top:10px;font-weight:600">— <span id="fromName">Best Friend</span></p>
+      </div>
+
+      <p class="note">Double-tap the card or use the buttons above. I made this to see you smile.🥺❤️</p>
+    </div>
+
+    <footer>Made with love — hoping to see your happy face again 😊</footer>
+  </div>
+
+  <!-- SMILE POPUP -->
+  <div class="popup-overlay" id="popupOverlay" aria-hidden="true">
+    <div class="popup" role="dialog" aria-modal="true" aria-label="Make you smile popup">
+      <button class="close-x" id="closePopup">✕</button>
+      <div class="big-heart">💖</div>
+      <div class="compliment" id="compliment">You light up every room with your smile.</div>
+
+      <div id="tinyHearts" style="margin:6px 0">
+        <span style="margin:0 6px;font-size:18px">💗</span>
+        <span style="margin:0 6px;font-size:18px">✨</span>
+        <span style="margin:0 6px;font-size:18px">😊</span>
+        <span style="margin:0 6px;font-size:18px">🌟</span>
+      </div>
+
+      <!-- Reply area -->
+      <div class="reply-box">
+        <textarea id="replyText" placeholder="Write a little reply..."></textarea>
+
+        <div class="emoji-row" id="emojiRow">
+          <button class="emoji-btn" data-emoji="😊">😊</button>
+          <button class="emoji-btn" data-emoji="😍">😍</button>
+          <button class="emoji-btn" data-emoji="🥰">🥰</button>
+          <button class="emoji-btn" data-emoji="✨">✨</button>
+          <button class="emoji-btn" data-emoji="❤️">❤️</button>
+          <button class="emoji-btn" data-emoji="😄">😄</button>
+        </div>
+
+        <div class="small-actions">
+          <div class="send-row">
+            <button class="action-btn wa" id="waSend">Share via WhatsApp</button>
+            <button class="action-btn sms" id="smsSend">Send SMS</button>
+            <button class="action-btn mail" id="mailSend">Send Email</button>
+            <button class="action-btn copy" id="copySend">Copy text</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision" style="margin-top:12px">
+        <button class="forgive-btn" id="forgiveBtn">Yes — I forgive you</button>
+        <button class="no-btn" id="noBtn">No — stay away</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- emoji rain container -->
+  <div class="emoji-fall" id="emojiFall"></div>
+
+  <!-- confetti + celebration -->
+  <canvas id="confetti"></canvas>
+
+  <div class="celebrate" id="celebrateView" aria-hidden="true">
+    <h2>Yaaay! 🥳</h2>
+    <p>Thank you, Bansi — your smile means everything. 💖</p>
+    <button class="back-btn" id="backToPage">Back</button>
+  </div>
+
+<script>
+  // personalization
+  const herName = "Bansi";
+  const nick = "Pancake";
+  const yourName = "Best Friend"; // your name or nickname
+  const phoneNumber = ""; // optional direct WhatsApp number e.g. '9198...'
+
+  document.getElementById('her').textContent = herName;
+  document.getElementById('fromName').textContent = yourName;
+
+  // page elements
+  const revealBtn = document.getElementById('revealBtn');
+  const cheerBtn = document.getElementById('cheerBtn'); // renamed button
+  const letter = document.getElementById('letter');
+  const promiseText = document.getElementById('promiseText');
+  const smiley = document.getElementById('smiley');
+  const card = document.getElementById('card');
+
+  // popup elements
+  const popupOverlay = document.getElementById('popupOverlay');
+  const closePopup = document.getElementById('closePopup');
+  const complimentEl = document.getElementById('compliment');
+  const replyText = document.getElementById('replyText');
+  const emojiRow = document.getElementById('emojiRow');
+  const emojiFall = document.getElementById('emojiFall');
+
+  // send buttons inside popup
+  const waSend = document.getElementById('waSend');
+  const smsSend = document.getElementById('smsSend');
+  const mailSend = document.getElementById('mailSend');
+  const copySend = document.getElementById('copySend');
+
+  // decision buttons
+  const forgiveBtn = document.getElementById('forgiveBtn');
+  const noBtn = document.getElementById('noBtn');
+
+  // celebration view
+  const celebrateView = document.getElementById('celebrateView');
+  const backToPage = document.getElementById('backToPage');
+
+  // typing promise lines
+  const promiseLines = [
+    "I am always with you in any situation.",
+    "I want to see your face happy — always.",
+    "I'll try my best to never hurt you again."
+  ];
+
+  // compliments for popup
+  const compliments = [
+    "You light up every room with your smile.",
+    "Your laugh is my favorite sound.",
+    "You make ordinary moments feel special.",
+    "Your Pancake vibes are the cutest thing I know.",
+    "Seeing you happy is my biggest wish."
+  ];
+
+  // default prefill (used when sending if she wants)
+  function getPrefill(){
+    const t = replyText.value && replyText.value.trim().length>0 ? replyText.value.trim() : `Hey ${herName} ❤️ — ${yourName} made this for you.`;
+    return t;
+  }
+
+  // ---------- Toggle short letter -----------
+  revealBtn.addEventListener('click', ()=>{
+    const visible = letter.style.display === 'block';
+    if(visible){
+      letter.style.display = 'none';
+      revealBtn.textContent = 'Open my short note 💌';
+      cancelTyping();
+    } else {
+      letter.style.display = 'block';
+      revealBtn.textContent = 'Hide note ✖';
+      playGentleConfetti();
+      typePromises();
+    }
+  });
+
+  // popup open (Brighten my day)
+  cheerBtn.addEventListener('click', openSmilePopup);
+
+  function openSmilePopup(){
+    popupOverlay.style.display = 'flex';
+    popupOverlay.setAttribute('aria-hidden','false');
+    // small pop on smile icon
+    smiley.style.transform = 'scale(1.25) rotate(-6deg)';
+    setTimeout(()=> smiley.style.transform = '', 500);
+
+    // compliments cycle
+    let i = 0;
+    complimentEl.textContent = compliments[i];
+    complimentTimer = setInterval(()=>{
+      i = (i + 1) % compliments.length;
+      complimentEl.style.opacity = 0;
+      setTimeout(()=> { complimentEl.textContent = compliments[i]; complimentEl.style.opacity = 1; }, 220);
+    }, 2400);
+
+    // small confetti
+    playGentleConfetti(60);
+  }
+
+  closePopup.addEventListener('click', closeSmilePopup);
+  popupOverlay.addEventListener('click', (e)=>{ if(e.target===popupOverlay) closeSmilePopup(); });
+
+  function closeSmilePopup(){
+    popupOverlay.style.display = 'none';
+    popupOverlay.setAttribute('aria-hidden','true');
+    if(complimentTimer) clearInterval(complimentTimer);
+  }
+
+  // ---------- typing promise --------------
+  let pIndex=0, charIndex=0, typingTimer=null;
+  function typePromises(){
+    cancelTyping();
+    promiseText.textContent='';
+    pIndex=0; charIndex=0;
+    runTyping();
+  }
+  function runTyping(){
+    const line = promiseLines[pIndex];
+    if(charIndex <= line.length){
+      promiseText.textContent = line.slice(0,charIndex) + (charIndex%2===0 ? '|' : '');
+      charIndex++;
+      typingTimer = setTimeout(runTyping, 50);
+    } else {
+      setTimeout(()=> {
+        pIndex = (pIndex+1) % promiseLines.length;
+        charIndex = 0;
+        promiseText.textContent = '';
+        typingTimer = setTimeout(runTyping, 300);
+      }, 900);
+    }
+  }
+  function cancelTyping(){ if(typingTimer) clearTimeout(typingTimer); }
+
+  // ---------- confetti ---------------
+  function playGentleConfetti(count=90){
+    const c = document.getElementById('confetti'); const ctx=c.getContext('2d');
+    c.width = innerWidth; c.height = innerHeight;
+    const colors = ["#ff8db7","#ffd1e8","#fff0fb","#ffc2de","#ffb3d9"];
+    const pieces=[];
+    for(let i=0;i<count;i++){
+      pieces.push({
+        x: Math.random()*c.width,
+        y: -10 - Math.random()*c.height,
+        w: 6 + Math.random()*8,
+        h: 6 + Math.random()*8,
+        vx: -0.6 + Math.random()*1.2,
+        vy: 1.5 + Math.random()*2.5,
+        r: Math.random()*360,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        rotSpeed: (-2 + Math.random()*4)
+      });
+    }
+    let frames=0;
+    function update(){
+      ctx.clearRect(0,0,c.width,c.height);
+      for(const p of pieces){
+        p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.r += p.rotSpeed;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r*Math.PI/180);
+        ctx.fillStyle=p.color; ctx.fillRect(0,0,p.w,p.h); ctx.restore();
+      }
+      frames++;
+      if(frames<160) requestAnimationFrame(update);
+      else { ctx.clearRect(0,0,c.width,c.height); c.width=0; c.height=0; }
+    }
+    update();
+  }
+
+  // ---------- emoji buttons: insert + rain ----------
+  function createEmojiRain(emoji, count=28){
+    const container = emojiFall;
+    const width = window.innerWidth;
+    for(let i=0;i<count;i++){
+      const el = document.createElement('div');
+      el.textContent = emoji;
+      el.style.position = 'fixed';
+      el.style.left = (Math.random()*100) + '%';
+      el.style.top = (-10 - Math.random()*20) + 'vh';
+      el.style.fontSize = (16 + Math.random()*28) + 'px';
+      el.style.opacity = (0.7 + Math.random()*0.3);
+      el.style.transform = `rotate(${Math.random()*360}deg)`;
+      el.style.pointerEvents = 'none';
+      container.appendChild(el);
+      // animate falling
+      const dur = 1800 + Math.random()*1800;
+      el.animate([
+        { transform: `translateY(0) rotate(${Math.random()*360}deg)`, opacity: el.style.opacity },
+        { transform: `translateY(${window.innerHeight + 200}px) rotate(${Math.random()*720}deg)`, opacity: 0 }
+      ], { duration: dur, easing: 'cubic-bezier(.2,.7,.2,1)'});
+      // remove after done
+      setTimeout(()=> { if(el.parentNode) el.parentNode.removeChild(el); }, dur+80);
+    }
+  }
+
+  emojiRow.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.emoji-btn');
+    if(!btn) return;
+    const emoji = btn.getAttribute('data-emoji') || '😊';
+    // insert emoji into textarea at caret
+    const ta = replyText;
+    const start = ta.selectionStart || ta.value.length;
+    const end = ta.selectionEnd || start;
+    const before = ta.value.slice(0,start), after = ta.value.slice(end);
+    ta.value = before + emoji + after;
+    const pos = start + emoji.length;
+    ta.setSelectionRange(pos,pos);
+    ta.focus();
+    // create a small emoji rain
+    createEmojiRain(emoji, 20);
+  });
+
+  // ---------- send actions from reply box ----------
+  function openWhatsAppWith(text){
+    const encoded = encodeURIComponent(text);
+    if(phoneNumber && phoneNumber.trim().length>5){
+      window.open(`https://wa.me/${phoneNumber}?text=${encoded}`, '_blank');
+    } else {
+      window.open(`https://wa.me/?text=${encoded}`, '_blank');
+    }
+  }
+
+  waSend.addEventListener('click', ()=>{
+    const t = getPrefill();
+    openWhatsAppWith(t);
+  });
+
+  smsSend.addEventListener('click', ()=>{
+    const b = encodeURIComponent(getPrefill());
+    // sms body parameter works on mobile
+    window.location.href = `sms:?body=${b}`;
+  });
+
+  mailSend.addEventListener('click', ()=>{
+    const subject = encodeURIComponent("A little message");
+    const body = encodeURIComponent(getPrefill());
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  });
+
+  copySend.addEventListener('click', async ()=>{
+    try{
+      await navigator.clipboard.writeText(getPrefill());
+      copySend.textContent = 'Copied ✅';
+      setTimeout(()=> copySend.textContent = 'Copy text', 1400);
+    }catch(e){
+      copySend.textContent = 'Long-press to copy';
+      setTimeout(()=> copySend.textContent = 'Copy text', 1400);
+    }
+  });
+
+  // ---------- decision buttons behavior ----------
+  // "No - stay away" cycles through pleas each time pressed
+  const noCycle = ["No — stay away", "Please...", "Pretty please...", "No — stay away"];
+  let noIndex = 0;
+  noBtn.addEventListener('click', ()=>{
+    noIndex = (noIndex + 1) % noCycle.length;
+    noBtn.textContent = noCycle[noIndex];
+
+    // small emoji rain or confetti to soften
+    createEmojiRain("💔", 8); // playful sadness
+    if(noIndex === 1 || noIndex === 2){
+      // when it becomes polite pleas, gently pulse the forgive button to attract attention
+      forgiveBtn.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 700 });
+    }
+  });
+
+  // Forgive button: show celebration full-screen
+  forgiveBtn.addEventListener('click', ()=>{
+    // close popup
+    closeSmilePopup();
+    // show celebrate view
+    celebrateView.style.display = 'flex';
+    celebrateView.setAttribute('aria-hidden','false');
+    // confetti + hearts
+    playGentleConfetti(140);
+    createEmojiRain("💖", 60);
+  });
+
+  // back from celebrate
+  backToPage.addEventListener('click', ()=>{
+    celebrateView.style.display = 'none';
+    celebrateView.setAttribute('aria-hidden','true');
+    // quick small confetti to keep it merry
+    playGentleConfetti(50);
+  });
+
+  // ---------- small auto-open note on load ----------
+  let complimentTimer = null;
+  window.addEventListener('load', ()=>{
+    setTimeout(()=>{
+      letter.style.display = 'block';
+      playGentleConfetti(40);
+      typePromises();
+      setTimeout(()=>{ letter.style.display = 'none'; revealBtn.textContent = 'Open my short note 💌'; }, 2600);
+    }, 850);
+  });
+
+  // cleanup on resize
+  window.addEventListener('resize', ()=>{ const c=document.getElementById('confetti'); c.width=innerWidth; c.height=innerHeight; });
+
+  // accessibility: keyboard ESC to close popup & celebrate
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      closeSmilePopup();
+      celebrateView.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
